@@ -1,6 +1,9 @@
 import pyttsx3
 import os
 
+# Global
+INTERFACE_VERSION = "110000, 111002"
+
 # Init TTS Engine
 TTSEngine = pyttsx3.init()
 TTSEngine.setProperty('rate', 200) # Rate of Speech
@@ -21,7 +24,7 @@ def CreateAddOn():
     TOCPath = os.path.join('SharedMedia_Unhalted', 'SharedMedia_Unhalted.toc')
     LUAPath = os.path.join('SharedMedia_Unhalted', 'SharedMedia_Unhalted.lua')
     with open(TOCPath, 'w') as TOCFile: # Write TOC File with Relevant Information
-        TOCFile.write('## Interface: 110000, 110002\n')
+        TOCFile.write(f'## Interface: {INTERFACE_VERSION}\n')
         TOCFile.write('## Title: SharedMedia - |cFF8080FFUnhalted|r\n')
         TOCFile.write('## Author: Unhalted\n')
         TOCFile.write('## Version: 1.0\n')
