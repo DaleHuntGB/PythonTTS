@@ -1,0 +1,114 @@
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+AOE
+Interrupt
+Defensive
+Move Out
+Move In
+Dodge
+Stack
+Soak
+Spread
+Orbs
+Refresh
+Left
+Down
+Up
+Right
+Stun
+Adds
+Avoid
+Back
+Front
+Bait
+Backup
+Skull
+White
+Square
+Blue
+Circle
+Orange
+Star
+Yellow
+Triangle
+Green
+Cross
+Red
+Moon
+Silver
+Charge
+Feet
+High Energy
+Low Energy
+Intermission
+Kite
+LoS
+Nuke
+Phase 1
+Phase 2
+Phase 3
+Phase 4
+Split
+Switch
+Spawn
+Stop Casting
+Soon
+Wave
+Winds
+Totem
+Add
+Beam
+Buff
+Clear
+Close
+Come Up
+Go Down
+Dispel
+Group Up
+Healthstones
+Flasks
+Feast
+Potions
+Incorporeal
+Afflicted
+Rescue
+Leap of Faith
+Your Turn
+Turn Left
+Turn Right
+Go Left
+Go Right
+Knock
+Knock Back
+Knock Up
+Hide
+Gate
+Drop
+Focus
+Far
+Near
+Run
+Queue
+Jump
+Overlap
+Shield
+Macro
+Press Macro
+Repair
+Repair Up
+Summonstone
+Help Summon
+CC
+CC Adds
+Pick Up
+Seed
+Spawns
+Kick
