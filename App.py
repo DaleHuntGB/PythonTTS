@@ -17,6 +17,7 @@ def GenerateTTSFromText(filePath):
         for Line in TextToRead:
             OutputPath = os.path.join(OutputDirectory, f"{Line}.mp3")
             TTSEngine.save_to_file(Line, OutputPath) # Save Each Read TTS to MP3
+            print(f"Generating TTS for: {Line}")
             TTSEngine.runAndWait()
 
 def CreateAddOn():
@@ -24,17 +25,21 @@ def CreateAddOn():
     TOCPath = os.path.join('SharedMedia_Unhalted', 'SharedMedia_Unhalted.toc')
     LUAPath = os.path.join('SharedMedia_Unhalted', 'SharedMedia_Unhalted.lua')
     with open(TOCPath, 'w') as TOCFile: # Write TOC File with Relevant Information
+        print("Creating TOC File")
         TOCFile.write(f'## Interface: {INTERFACE_VERSION}\n')
         TOCFile.write('## Title: SharedMedia - |cFF8080FFUnhalted|r\n')
         TOCFile.write('## Author: Unhalted\n')
         TOCFile.write('## Version: 1.0\n')
         TOCFile.write('SharedMedia_Unhalted.lua\n')
+        print("TOC File Created")
     with open(LUAPath, 'w') as LuaFile:
+        print("Creating LUA File")
         LuaFile.write('LSM = LibStub("LibSharedMedia-3.0")\n')
         SoundsDirectory = os.path.join('SharedMedia_Unhalted', 'Sounds')
         for File in os.listdir(SoundsDirectory):
             if File.endswith('.mp3'):
-                LuaFile.write(f'LSM:Register("sound", "|cFF8080FFUnhalted|r: {File[:-4]}", [[Interface\AddOns\SharedMedia_Unhalted\Sounds\{File}]])\n') # Register Each Sound with LSM
+                print(f"Adding Sound: {File}")
+                LuaFile.write(f'LSM:Register("sound", "|cFF8080FFUnhalted|r: {File[:-4]}", [[Interface\\AddOns\\SharedMedia_Unhalted\\Sounds\\{File}]])\n')
 
 GenerateTTSFromText('TTS.txt')
 CreateAddOn()
