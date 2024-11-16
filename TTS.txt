@@ -112,3 +112,23 @@ Pick Up
 Seed
 Spawns
 Kick
+Pull
+Pull In
+Root
+Root Incoming
+Ring
+Ring Incoming
+Fixate
+Fixate Incoming
+Stop
+Stop Casting
+Orb
+Orb Incoming
+Bombs
+Bombs Incoming
+Pick Up Bomb
+Hook
+Hook Incoming
+Hook Boss
+Boss
+Go Boss
