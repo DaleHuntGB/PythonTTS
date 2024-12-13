@@ -132,3 +132,7 @@ Hook Incoming
 Hook Boss
 Boss
 Go Boss
+Shadowmeld
+Affix Incoming
+Affix
+You
