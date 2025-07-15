@@ -8,7 +8,7 @@
 8
 9
 10
-AOE
+A O E
 Interrupt
 Defensive
 Move Out
@@ -136,3 +136,4 @@ Shadowmeld
 Affix Incoming
 Affix
 You
+P I

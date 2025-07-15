@@ -1,45 +1,72 @@
-import pyttsx3
 import os
+from elevenlabs import ElevenLabs
 
-# Global
+# === CONFIG ===
 INTERFACE_VERSION = "110000, 111002"
+API_KEY = os.getenv("ELEVEN_LABS_TTS")
+VOICE_ID = "cgSgspJ2msm6clMCkdW9" # Jessica
+MODEL_ID = "eleven_monolingual_v1"
+OUTPUT_DIR = os.path.join("SharedMedia_Unhalted", "Sounds")
 
-# Init TTS Engine
-TTSEngine = pyttsx3.init()
-TTSEngine.setProperty('rate', 200) # Rate of Speech
-TTSEngine.setProperty('volume', 1.0)
+def ListAllVoices():
+    print("🔍 Listing all available voices:")
+    resp = client.voices.search(search="", page_size=100, include_total_count=False)
+    for voice in resp.voices:
+        print(f"- {voice.name} (ID: {voice.voice_id}, Category: {voice.category})")
+
+# === INIT CLIENT ===
+client = ElevenLabs(api_key=API_KEY)
 
 def GenerateTTSFromText(filePath):
-    OutputDirectory = os.path.join('SharedMedia_Unhalted', 'Sounds') # Define Output Directory
-    os.makedirs(OutputDirectory, exist_ok=True)
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
     with open(filePath, 'r') as File:
-        TextToRead = File.read().splitlines() # Read Text File        
-        for Line in TextToRead:
-            OutputPath = os.path.join(OutputDirectory, f"{Line}.mp3")
-            TTSEngine.save_to_file(Line, OutputPath) # Save Each Read TTS to MP3
+        for Line in File.read().splitlines():
+            Line = Line.strip()
+            if not Line:
+                continue
+
             print(f"Generating TTS for: {Line}")
-            TTSEngine.runAndWait()
+            audio = client.text_to_speech.convert(
+                text=Line,
+                voice_id=VOICE_ID,
+                model_id=MODEL_ID,
+                output_format="mp3_44100_128",
+                voice_settings= {
+                    "stability": 1.00,
+                    "similarity_boost": 1.00,
+                }
+            )
+
+            sanitized_filename = f"{Line}.mp3".replace("/", "_").replace(":", "").replace('"', '')
+            output_path = os.path.join(OUTPUT_DIR, sanitized_filename)
+            with open(output_path, "wb") as f:
+                for chunk in audio:
+                    f.write(chunk)
+
 
 def CreateAddOn():
-    os.makedirs('SharedMedia_Unhalted', exist_ok=True)
-    TOCPath = os.path.join('SharedMedia_Unhalted', 'SharedMedia_Unhalted.toc')
-    LUAPath = os.path.join('SharedMedia_Unhalted', 'SharedMedia_Unhalted.lua')
-    with open(TOCPath, 'w') as TOCFile: # Write TOC File with Relevant Information
-        print("Creating TOC File")
+    os.makedirs("SharedMedia_Unhalted", exist_ok=True)
+    TOCPath = os.path.join("SharedMedia_Unhalted", "SharedMedia_Unhalted.toc")
+    LUAPath = os.path.join("SharedMedia_Unhalted", "SharedMedia_Unhalted.lua")
+
+    print("Creating TOC File")
+    with open(TOCPath, 'w') as TOCFile:
         TOCFile.write(f'## Interface: {INTERFACE_VERSION}\n')
         TOCFile.write('## Title: SharedMedia - |cFF8080FFUnhalted|r\n')
         TOCFile.write('## Author: Unhalted\n')
         TOCFile.write('## Version: 1.0\n')
         TOCFile.write('SharedMedia_Unhalted.lua\n')
-        print("TOC File Created")
-    with open(LUAPath, 'w') as LuaFile:
-        print("Creating LUA File")
-        LuaFile.write('LSM = LibStub("LibSharedMedia-3.0")\n')
-        SoundsDirectory = os.path.join('SharedMedia_Unhalted', 'Sounds')
-        for File in os.listdir(SoundsDirectory):
-            if File.endswith('.mp3'):
-                print(f"Adding Sound: {File}")
-                LuaFile.write(f'LSM:Register("sound", "|cFF8080FFUnhalted|r: {File[:-4]}", [[Interface\\AddOns\\SharedMedia_Unhalted\\Sounds\\{File}]])\n')
 
-GenerateTTSFromText('TTS.txt')
-CreateAddOn()
+    print("Creating LUA File")
+    with open(LUAPath, 'w') as LuaFile:
+        LuaFile.write('LSM = LibStub("LibSharedMedia-3.0")\n')
+        for File in os.listdir(OUTPUT_DIR):
+            if File.endswith(".mp3"):
+                name = File[:-4].replace('"', '').replace('\\', '')
+                LuaFile.write(
+                    f'LSM:Register("sound", "|cFF8080FFUnhalted|r: {name}", [[Interface\\AddOns\\SharedMedia_Unhalted\\Sounds\\{File}]])\n'
+                )
+
+# === EXECUTION ===
+GenerateTTSFromText("TTS.txt")
+# CreateAddOn()
